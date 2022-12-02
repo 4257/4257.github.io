@@ -27,18 +27,17 @@ words_per_minute: 100
 
 repository: "4257/4257.github.io"
 
-
 comments:
   provider: "giscus"
  
 giscus:
     repo_id              : "R_kgDOIit2Uw"
-    category_name        : "Announcements"
-    category_id          : "DIC_kwDOIit2U84CS3ia"
+    category_name        : "General"
+    category_id          : "DIC_kwDOIit2U84CS3ib"
     discussion_term      : "pathname"
     reactions_enabled    : '1'
-    theme                : "preferred_color_scheme"
-    lang                 : "zh"
+    theme                : "dark"
+    lang                 : "zh-CN"
     input_position       : "top"
     
     
