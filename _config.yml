@@ -25,7 +25,8 @@ minimal_mistakes_skin: dark
 search: true
 words_per_minute: 100
 
-repository               : "4257/4257.github.io"
+repository: "4257/4257.github.io"
+
 
 comments:
   provider               : "giscus"
