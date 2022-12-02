@@ -25,19 +25,18 @@ minimal_mistakes_skin: dark
 search: true
 words_per_minute: 100
 
-repository               : "4257/4257.github.io" # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
+repository               : "4257/4257.github.io"
 
 comments:
-  provider               : "giscus" # false (default), "disqus", "discourse", "facebook", "staticman", "staticman_v2", "utterances", "giscus", "custom"
-  
+  provider               : "giscus"
+ 
 giscus:
-    repo_id              : "R_kgDOIit2Uw" # Shown during giscus setup at https://giscus.app
-    category_name        : "General" # Full text name of the category
-    category_id          : "DIC_kwDOIit2U84CS3ib" # Shown during giscus setup at https://giscus.app
-    discussion_term      : "pathname" # "pathname" (default), "url", "title", "og:title"
-    reactions_enabled    : '1' # '1' for enabled (default), '0' for disabled
-    theme                : "preferred_color_scheme" # "light" (default), "dark", "dark_dimmed", "transparent_dark", "preferred_color_scheme"
-    input_position       : "top"
+    repo_id              : "R_kgDOIit2Uw"
+    category_name        : "General"
+    category_id          : "DIC_kwDOIit2U84CS3ib"
+    discussion_term      : "pathname"
+    reactions_enabled    : '1
+    theme                : "preferred_color_scheme"
     
     
 # Build settings
@@ -116,15 +115,15 @@ author:
 
 footer:
   links:
-    - label: "Twitter"
-      icon: "fab fa-fw fa-twitter-square"
-      url: "https://twitter.com/"
+    #- label: "Twitter"
+     # icon: "fab fa-fw fa-twitter-square"
+      #url: "https://twitter.com/"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-      url: "https://github.com/"
-    - label: "Instagram"
-      icon: "fab fa-fw fa-instagram"
-      url: "https://instagram.com/"
+      url: "https://github.com/4257"
+    #- label: "Instagram"
+     #icon: "fab fa-fw fa-instagram"
+      #url: "https://instagram.com/"
 
 defaults:
   # _posts
