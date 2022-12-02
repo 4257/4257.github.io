@@ -24,7 +24,7 @@ github_username: "4257"
 minimal_mistakes_skin: dark
 search: true
 words_per_minute: 100
-local: "zh"
+locale: "zh-CN"
 
 repository: "4257/4257.github.io"
 
