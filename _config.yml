@@ -32,8 +32,8 @@ comments:
  
 giscus:
     repo_id              : "R_kgDOIit2Uw"
-    category_name        : "General"
-    category_id          : "DIC_kwDOIit2U84CS3ib"
+    category_name        : "Announcements"
+    category_id          : "DIC_kwDOIit2U84CS3ia"
     discussion_term      : "pathname"
     reactions_enabled    : '1
     theme                : "preferred_color_scheme"
