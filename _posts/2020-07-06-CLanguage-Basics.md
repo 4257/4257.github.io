@@ -1,6 +1,7 @@
 ---
 title: "CLanguage Basics"
 last_modified_at: 2023-07-10T09:42:02-10:00
+toc: true
 categories:
   - Blog
 tags:
