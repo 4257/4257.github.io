@@ -40,3 +40,14 @@ rsp|esp|sp|Spl|
 * 指令太多且与标志寄存器挂钩,随用随查
 #### lea
 * 取地址指令,将src的内存地址给dst
+#### leave	
+* leave指令等于恢复堆栈的指令
+```asm
+mov esp,ebp
+pop ebp
+```
+#### enter
+```asm
+push ebp
+mov ebp,esp
+```
