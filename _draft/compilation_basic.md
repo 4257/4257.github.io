@@ -51,3 +51,37 @@ pop ebp
 push ebp
 mov ebp,esp
 ```
+### 参数的传递
+C语言实参的传递其实是值的传递
+
+### 编译器
+#### gcc
+##### gcc编译器流程
+```
+//常用命令
+-E         Preprocess only; do not compile, assemble or link.
+-S         Compile only; do not assemble or link.
+-c         Compile and assemble, but do not link.
+-o <file>  Place the output into <file>.
+```
+###### 预处理阶段
+在预处理阶段 预处理器`cpp`根据以字符`#`开头的命令 修改原始的C程序  
+定义的头文件将会以文本的形式 直接插入到文件中 定义的宏将会展开
+```
+gcc -E hello.c
+```
+###### 编译阶段
+将预处理过的C程序hello.i翻译成一个可读的汇编文本文件hello.s
+```
+gcc -S hello.c
+```
+###### 汇编
+将hello.s翻译成机器语言指令 将指令打包成可重定位目标程序(relocatable object program)
+```
+gcc -c hello.c
+```
+###### 链接
+链接在程序执行中所需的各种动、静态库文件与程序合并 得到可执行程序
+```
+gcc hello.c
+```
