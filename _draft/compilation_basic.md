@@ -85,3 +85,47 @@ gcc -c hello.c
 ```
 gcc hello.c
 ```
+#### llvm
+##### llvm编译器流程
+使用clang命令输出程序的编译过程
+```cmd
+ clang -ccc-print-phases hello.c
+```
+```cmd
++- 0: input, "hello.c", c
++- 1: preprocessor, {0}, cpp-output
++- 2: compiler, {1}, ir
++- 3: backend, {2}, assembler
++- 4: assembler, {3}, object
+5: linker, {4}, image
+```
+使用clang命令输出程序生产过程中的文件
+```cmd
+clang -save-temps hello.c
+```
+```
+a.out hello.bc  hello.c  hello.i  hello.o  hello.s
+```
+###### 预处理阶段
+```cmd
+clang -E hello.c -o hello.i
+//生成 hello.i文件
+```
+###### 词汇分析
+token
+###### 语法分析
+AST
+###### IR代码
+```cmd
+clang -S -emit-llvm hello.c
+//生成hello.ll文件
+.ll -> llvm-as -> .bc
+.bc -> llvm-dis -> .ll
+.ll -> llc -> .s
+```
+###### 编译阶段
+```cmd
+clang -S hello.c
+```
+###### 汇编
+###### 链接
