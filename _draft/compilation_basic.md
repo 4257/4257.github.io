@@ -52,7 +52,15 @@ push ebp
 mov ebp,esp
 ```
 ### 参数的传递
-C语言实参的传递其实是值的传递
+C语言实参的传递其实是值的传递  
+C语言函数调用约定方式  
+调用约定|参数压栈顺序|平衡堆栈
+|---|---|---|
+__cdecl|从右至左入栈|调用者清理堆栈|
+__stdcall|从右至左入栈|自身清理堆栈|
+__fastcall|ecx/edx传送前两个|自身清理堆栈|
+
+剩下:从右至左入栈	
 
 ### 编译器
 #### gcc
@@ -112,9 +120,9 @@ clang -E hello.c -o hello.i
 //生成 hello.i文件
 ```
 ###### 词汇分析
-token
+生成token
 ###### 语法分析
-AST
+AST语法树
 ###### IR代码
 ```cmd
 clang -S -emit-llvm hello.c
@@ -128,4 +136,10 @@ clang -S -emit-llvm hello.c
 clang -S hello.c
 ```
 ###### 汇编
+```cmd
+clang -c hello.c
+```
 ###### 链接
+```
+clang hello
+```
