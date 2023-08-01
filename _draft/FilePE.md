@@ -36,3 +36,9 @@ SIZEOF IMAGE_OPTIONAL_HEADER: 224
 SIZEOF IMAGE_OPTIONAL_HEADER32: 224
 SIZEOF IMAGE_OPTIONAL_HEADER64: 240
 ```
+### 代码空白区添加代码
+使用反汇编工具打开一个程序 下断点 记录断点的位置
+E8 E9
+call/jmp指令实际跳转的地址 = E8的下一条地址 + X
+E8 E9实际指令长度是5
+call/jmp指令实际跳转的地址 = E8当前的地址 + 5 + x
