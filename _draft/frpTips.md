@@ -21,6 +21,7 @@ tls_key_file = server.key
 tls_trusted_ca_file = ca.crt
 ```
 ### 客户端配置
+`server_addr`改成服务器IP
 ```
 [common]
 server_addr = 0.0.0.0
