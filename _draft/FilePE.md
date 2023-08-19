@@ -82,15 +82,44 @@ ImageBuffer + VirtualAddress + VirtualSize
 ImageBase + AddressOfEntryPoint - ImageBase + ShllCode
 修正OEP
 
-新增节
+移动头和节表
+删掉没有的dos_stub
+
+扩大最后一个节
+```
+### 新增节
 需要节+40字节的空间（也可以不为0 看情况）
 sizeofheader - 前面的所有已有数据的空间 > 80字节
 修改NumberOfSections
 修改SizeOfImage
 扩大的位置需要是对齐后的整数倍
 
-移动头和节表
-删掉没有的dos_stub
+### 在64位软件中怎么添加shellcode？
 
-扩大最后一个节
-```
+### 合并节
+变成一个节表
+文件变大
+改节表
+
+### 导出表
+打印导出表
+16个目录结构
+第一个是导出表在哪里
+rva - foa
+addressoffunctions 导出函数地址表 rva->真正的地址的值
+addressofnames    导出函数的名称表 rav->真正的名字的值
+addressofNameordinals 导出函数序号的表 真正的值需要加上Base
+
+
+addressofnames和addressofNaneordinals的数量一样
+#### 按照名字导出
+函数先在addressofnames表里面比对
+比对一样的名字的索引直接找addressofNameordinals里面对应索引对应的值
+再用值找addressoffunctions里面的函数地址
+
+#### 按照序号导出
+序号减去Base的值
+得到的值做addressoffunctions的索引找函数对应的地址
+
+### 重定位表
+数据目录的第六个结构 重定位表
