@@ -139,3 +139,4 @@ VirtualAddress    当前数据块 每一个低12为的值加上VirtualAddress才
 SezeofBlock       当前块的总大小
 Block(虚拟的属性)  所有重定位的值 单个为两字节 每个值高四位的值为3表示这个值需要修改 否则就是被填充的数据
 ```
+### IAT表
