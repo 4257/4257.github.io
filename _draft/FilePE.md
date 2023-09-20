@@ -114,6 +114,7 @@ addressofnames    导出函数的名称表 rav->真正的名字的值
 addressofNameordinals 导出函数序号的表 真正的值需要加上Base
 addressofnames和addressofNaneordinals的数量一样
 ```
+两个函数 用函数名字找地址和用序号找地址
 #### 按照名字导出
 ```
 函数先在addressofnames表里面比对
@@ -140,3 +141,27 @@ SezeofBlock       当前块的总大小
 Block(虚拟的属性)  所有重定位的值 单个为两字节 每个值高四位的值为3表示这个值需要修改 否则就是被填充的数据
 ```
 ### IAT表
+
+### 导入表
+#### 加载前
+INT表和IAT表存的值完全一样 都以0作为结束符 存的都是RVA 指向IMAGE_IMPORT_BY_NAME
+#### 加载后
+加载后 操作系统会调用GetGrocAddr()函数 用INT表找到的函数地址写入到IAT表中 IAT表存的是真实的函数地址  
+使用目录结构修复exe的导入表  
+IMAGE_IMPORT_DESCRIPTOR -> OriginalFirstTunk ->IMAGE_THUNK_DATA32
+判断值是不是1 是1则根据后31为编号去导出表查找函数名得到地址 添加到IAT表的相同位置
+
+### ??!!
+句柄就是内存中文件的地址  
+GetGrocAddr(in HMODULE hModule,in LPCSTR lpProcName)函数  
+用句柄和函数名或者函数导出序号去对应dll里面查找导出表里面存的对应函数的地址  
+加载对应的dll获取句柄  
+
+!!程序的虚拟地址空间：每个程序都有自己的虚拟地址空间，通常在32位系统中是4GB。  
+这个4GB的虚拟地址空间包括了程序的代码、数据以及任何加载的DLL的代码和数据。程序可以使用这个虚拟地址空间来访问各种资源。  
+
+!!DLL的虚拟地址空间：每个DLL也有自己的虚拟地址空间，但它并不是独立的4GB空间。  
+DLL的虚拟地址空间是相对于加载它的程序的虚拟地址空间的一部分。  
+当程序加载DLL时，DLL的代码和数据会被映射到程序的虚拟地址空间中的适当位置。  
+这意味着DLL的虚拟地址空间的大小与它所属的程序的虚拟地址空间大小相同。  
+DLL不能单独拥有独立的4GB虚拟地址空间，它与加载它的程序共享同一个地址空间。
