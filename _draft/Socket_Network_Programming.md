@@ -2,6 +2,7 @@
 ### linux socket 函数
 ```c
 #include <sys/socket.h>
+
 int socket(int domain,int type,int protocol);
 
 int bind(int sockfd, struct sockaddr* myaddr, socklen_t addrlen);
@@ -12,8 +13,31 @@ int accept(int sockfd,struct sockaddr* addr,socklen_t* addrlen);
 
 int connect(int sockfd,struct sockaddr* serv_addr,socklen_t addrlen);
 
+struct sockaddr_in{
+  sa_family_t     sin_family;
+  uint16          sin_port;
+  struct adr_in   sin_addr;
+  char            sin_zero[8];
+}
+
+struct sockaddr{
+  sa_family_t     sin_family;
+  char            sa_data[14];//这里实际需要存储的是sockaddr_in里面sin_port + sin_addr的数据 剩下的字节全部填充0
+}
+
 //成功返回0 失败返回-1
 ```
+- socket():
+  - domian:  协议族信息
+    - PF_INET    IPv4协议族
+    - PF_INET6   IPv6协议族
+    - PF_LOCAL   本地通信的UNIX协议族
+    - PF_PACKET  底层套接字的协议族
+    - PF_IPX     IPX NoVell协议族
+  - type：   数据传输类型
+    - SOCK_STREAM  面向连接的套接字
+    - SOCK_DGRAM   面向消息的套接字
+  - protocol: 计算机间通信中使用的协议信息
 
 ### windows socket 函数
 ```c
