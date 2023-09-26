@@ -29,6 +29,7 @@ struct sockaddr{
   char            sa_data[14];//这里实际需要存储的是sockaddr_in里面sin_port + sin_addr的数据 剩下的字节全部填充0
 }
 ```
+//创建socket 随后声明并且初始化地址信息结构体变量
 - socket():
   - domian:  协议族信息
     - PF_INET    IPv4协议族
@@ -42,10 +43,25 @@ struct sockaddr{
   - protocol: 计算机间通信中使用的协议信息
     - TCP 0
     - UDP 1
+//向套接字分配地址
 - bind():
   - sockfd     socket描述符
   - myaddr     需要一个struct sockaddr*的变量一般将sockaddr_in转成sockaddr
   - addrlen    地址长度sockaddr等于sockaddr_in
+//进入等待连接请求状态
+- listen()
+  - sockfd socket描述符,传入需要进入等待连接请求状态的socket描述符以成为服务器端socket
+  - backlog  连接请求队列的长度
+//受理客户端连接请求
+- accept()
+  - sockfd  服务器端socket描述符
+  - addr    保存发起连接请求的客户端地址信息的变量地址
+  - addrlen  第二个参数长度的地址
+//客户端的IP、端口在调用connect时自动分配 无需使用bind函数进行分配
+-connect()
+  - sockfd  客户端套接字描述符
+  - servaddr  保存的是目标服务端地址信息的变量地址值
+  - addrlen    第二个结构体变量的地址
 ### windows socket 函数
 ```c
 WSADATA wsaData;
