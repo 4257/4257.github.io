@@ -62,6 +62,22 @@ struct sockaddr{
   - sockfd  客户端套接字描述符
   - servaddr  保存的是目标服务端地址信息的变量地址值
   - addrlen    第二个结构体变量的地址
+ 
+### 常用函数
+read()
+read函数会尽可能的从socket中获得更多数据  
+如果在服务端接收客户端发送的数据时 调用两次read函数 则第二次调用的read并不会获得第一次获得的数据
+```
+client
+write buff = "1234567890"
+server
+read(socket,buff,3) -> buff = "123"
+read(socket,buff,7) -> buff = "4567890"
+```
+TCP套接字中的I/O缓冲  
+在创建套接字时 操作系统会分配发送缓冲和接收缓冲  
+当send时 数据被复制到发送缓冲 直到操作系统决定将其发送到目标套接字的接收缓冲中
+当数据被传输到套接字时 首先会被存储在接受缓冲中 并等到城市调用recv来读取
 ### windows socket 函数
 ```c
 WSADATA wsaData;
