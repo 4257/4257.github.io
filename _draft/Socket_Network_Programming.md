@@ -74,10 +74,21 @@ server
 read(socket,buff,3) -> buff = "123"
 read(socket,buff,7) -> buff = "4567890"
 ```
+### TCP
 TCP套接字中的I/O缓冲  
 在创建套接字时 操作系统会分配发送缓冲和接收缓冲  
 当send时 数据被复制到发送缓冲 直到操作系统决定将其发送到目标套接字的接收缓冲中
 当数据被传输到套接字时 首先会被存储在接受缓冲中 并等到城市调用recv来读取
+TCP中的服务端套接字指的是accept()函数接受来自客户端的连接请求时 操作系统为每个客户端创建的新套接字
+bind()函数用来绑定socket与地址信息
+TCP客户端套接字在调用connect函数时自动分配IP地址和端口(随机)
+
+基于TCP的半关闭
+
+### UDP
+UDP客户端套接字可以调用bind函数绑定IP地址和端口也可以等sendto的时候自动分配IP地址和端口(随机)
+UDP套接字存在数据边界 一端sendto了多少次 一端就要recvfrom多少次 
+UDP一个数据包即可算是一个完整数据 也称数据报
 ### windows socket 函数
 ```c
 WSADATA wsaData;
