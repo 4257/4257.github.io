@@ -118,11 +118,11 @@ in_addr{
   in_addr_t s_addr;            //4字节  IP地址
 }
 hostent{
-  char *h_name;			        //官方域名
-  char **h_aliases;		      //其他域名 可能多个
-  int h_addrtype;		        //地址族信息 AF_INET/AF_INET6
-  int h_length;			        //IP地址长度 V4 4字节 V6 16字节
-  char **h_addr_list;		    //保存域名对应的IP地址信息 可能多个
+  char *h_name;			           //官方域名
+  char **h_aliases;		         //其他域名 可能多个
+  int h_addrtype;		           //地址族信息 AF_INET/AF_INET6
+  int h_length;			           //IP地址长度 V4 4字节 V6 16字节
+  char **h_addr_list;		       //保存域名对应的IP地址信息 可能多个
 }
 ```
 ### TCP
