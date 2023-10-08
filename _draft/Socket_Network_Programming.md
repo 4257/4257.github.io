@@ -142,12 +142,28 @@ SHUT_RD  断开输入
 SHUT_WR  断开输出
 SHUT_RDWR  同时断开输入输出
 ```
-
-
 ### UDP
 UDP客户端套接字可以调用bind函数绑定IP地址和端口也可以等sendto的时候自动分配IP地址和端口(随机)
 UDP套接字存在数据边界 一端sendto了多少次 一端就要recvfrom多少次 
 UDP一个数据包即可算是一个完整数据 也称数据报
+### 套接字的多种可选项
+IPPROTO_IP    IP协议相关
+IPPROTO_TCP   TCP协议相关
+SOL_SOCKET    套接字通用相关
+
+getsockopt(int sockrt,int level,int optname,void* optval,socklen_t* optlen)  
+sock        查看选项套接字的描述符
+level       查看可选项的协议层
+optname     要查看的可选项名
+optval      保存查看结果的缓冲区地址
+optlen      缓冲区的大小 调用函数后该参数中保存通过第四个参数返回的可选项信息的字节数
+读取套接字可选项
+setsockopt(int sockrt,int level,int optname,const void* optval,socklen_t* optlen)
+sock        更改可选项套接字的描述符
+level       要更改的协议层
+optname     保存的可选项名
+optval      保存要更改的选项信息的缓冲区地址
+optlen      向第四个参数传递的可选项信息的字节数
 ### windows socket 函数
 ```c
 WSADATA wsaData;
