@@ -73,6 +73,57 @@ write buff = "1234567890"
 server
 read(socket,buff,3) -> buff = "123"
 read(socket,buff,7) -> buff = "4567890"
+
+fread()  
+函数会从上一次读取结束的位置开始,读取指定长度的数据,并将文件指针移动到读取结束的位置
+如果文件指针已达到文件末尾,他会从文件开头重新读取
+fwrite()  
+
+inet_addr()用于将点分十进制IP地址转换成二进制网络字节序IP地址;
+inet_ntoa()函数用于二进制网络字节序IP转化点分十进制IP;  
+
+inet_aton()函数用于将点分十进制IP地址转换成二进制网络字节序IP地址;  
+
+inet_ntop()函数用于将二进制网络字节序的地址转换成文本字符串;
+inet_pton()函数用于将文本字符串格式转换成二进制网络字节序地址;
+
+htons() htonl()
+将主机字节序转为网络字节序
+ntohs() ntohl()
+将网络字节序转为主机字节序
+s和l表示16位数据和32位数据
+```
+
+| |0x100|0x101|0x102|0x103|
+|-| -  | -  | -  | -  |
+|大端 | 0x01 | 0x02 |  0x03| 0x04 |
+|小端 | 0x04 | 0x03 |  0x02| 0x01 |
+
+内存从0x100增大 0x100是内存的低地址 0x103是内存的高地址  
+大端是内存低地址存储数据最高有效字节  
+小端是内存低地址存储数据最低有效字节  
+### 常用结构体
+```
+sockaddr_in{
+  sa_family_t sa_family;       //2字节  协议族
+  in_port_t sin_port;          //2字节  端口
+  struct in_addr sin_addr;     //4字节  IP地址
+  sock_in.sin_zero             //8字节0 无实际意义 只为与sockaddr结构体对齐
+}
+sockaddr{
+  sa_family_t sa_family;       //2字节  协议族
+  char sa_data[14];            //14字节  端口和IPV4/6数据 和填充的0
+}
+in_addr{
+  in_addr_t s_addr;            //4字节  IP地址
+}
+hostent{
+  char *h_name;			        //官方域名
+  char **h_aliases;		      //其他域名 可能多个
+  int h_addrtype;		        //地址族信息 AF_INET/AF_INET6
+  int h_length;			        //IP地址长度 V4 4字节 V6 16字节
+  char **h_addr_list;		    //保存域名对应的IP地址信息 可能多个
+}
 ```
 ### TCP
 TCP套接字中的I/O缓冲  
@@ -82,8 +133,16 @@ TCP套接字中的I/O缓冲
 TCP中的服务端套接字指的是accept()函数接受来自客户端的连接请求时 操作系统为每个客户端创建的新套接字
 bind()函数用来绑定socket与地址信息
 TCP客户端套接字在调用connect函数时自动分配IP地址和端口(随机)
+### 优雅的断开套接字连接
+linux的close和windows的closesocket函数意味着完全断开连接--无法传输数据、无法接受数据  
+基于TCP的半关闭  
+```
+int shutown(int socket,int howto)
+SHUT_RD  断开输入
+SHUT_WR  断开输出
+SHUT_RDWR  同时断开输入输出
+```
 
-基于TCP的半关闭
 
 ### UDP
 UDP客户端套接字可以调用bind函数绑定IP地址和端口也可以等sendto的时候自动分配IP地址和端口(随机)
