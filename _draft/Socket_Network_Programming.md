@@ -149,8 +149,29 @@ UDP一个数据包即可算是一个完整数据 也称数据报
 ### 套接字的多种可选项
 IPPROTO_IP    IP协议相关
 IPPROTO_TCP   TCP协议相关
-SOL_SOCKET    套接字通用相关
+- SOL_SOCKET    套接字通用相关  
+  - SO_SNDBUF  发送缓冲区大小  
+  - SO_RCVBUF  接收缓冲区大小  
+  - SO_REUSEADDR 和 Time-wait
 
+发生地址分配错误
+先断开连接(FIN消息)的套接字在经过四次握手过程后并非立即消除  
+而是需要经过一段时间的Time-wait状态 若是服务端先断开连接 进入  
+Time-wait状态 其相应端口是正在使用的状态 从无法立即重新运行  
+更改SO_REUSEADDR状态为1 可将Time-wait状态下的套接字端口号  
+重新分配给新的套接字
+
+### TCP协议
+#### 三次握手
+客户端首先向服务端发送数据包 表明想建立连接 并随机产生一个seq number  
+\[1\]flag:SYN = 1;seq = x  
+服务端收到客户端建立连接的请求 发送确认信息 并随机产生一个seq number  
+\[2\]flag:SYN = 1,ACK = 1; ack = x+1 ,seq = y  
+客户端收到确认信息 回复服务端  
+\[3\]flag:ACK = 1; ack = x+1 ,seq = y+1  
+上述中 客户端会检测收到的ack是否等于上一次\[1\]发送的seq+1 如是 则再发送ack = y+1  
+建立连接时 客户端和服务端都会产生一个随机的seq指 ACK报文如果不携带数据 seq不增加 其他情况增加  
+### 设置socket
 getsockopt(int sockrt,int level,int optname,void* optval,socklen_t* optlen)  
 sock        查看选项套接字的描述符
 level       查看可选项的协议层
