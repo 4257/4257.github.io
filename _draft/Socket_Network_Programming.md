@@ -160,6 +160,8 @@ IPPROTO_TCP   TCP协议相关
 Time-wait状态 其相应端口是正在使用的状态 从无法立即重新运行  
 更改SO_REUSEADDR状态为1 可将Time-wait状态下的套接字端口号  
 重新分配给新的套接字
+#### TCP_NODELAY
+
 
 ### TCP协议
 #### 三次握手
