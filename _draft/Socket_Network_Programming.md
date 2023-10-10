@@ -169,8 +169,14 @@ Time-wait状态 其相应端口是正在使用的状态 从无法立即重新运
 \[2\]flag:SYN = 1,ACK = 1; ack = x+1 ,seq = y  
 客户端收到确认信息 回复服务端  
 \[3\]flag:ACK = 1; ack = y+1 ,seq = x+1  
-上述中 客户端会检测收到的ack是否等于上一次\[1\]发送的seq+1 如是 则再发送ack = y+1  
 建立连接时 客户端和服务端都会产生一个随机的seq指 ACK报文如果不携带数据 seq不增加 其他情况增加  
+
+|/|1|2|3|4|5|6|7|8|9|10|
+|-|-|-|-|-|-|-|-|-|-|-|
+|**客户端**|SYN=1<br>seq=0||ACK=1<br>seq=1<br>ack=1|PSH=1<br>ACK=1<br>seq=1<br>ack=1<br>len=10|||ACK=1<br>seq=11<br>ack=11|FIN=1<br>ACK=1<br>seq=11<br>ack=11||ACK=1<br>seq=12<br>ack=12|
+|**数据流**|建立连接?|建立|确认建立|发送数据|确认数据|发送数据|确认数据|关闭连接|关闭连接|确认关闭|
+|**服务端**||SYN=1<br>ACK=1<br>seq=0<br>ack=1|||ACK=1<br>seq=1<br>ack=11|PSH=1<br>ACK=1<br>seq=1<br>ack=11<br>len=10|||FIN=1<br>ACK=1<br>seq=11<br>ack=12<br>||
+
 ### 设置socket
 ```
 getsockopt(int sockrt,int level,int optname,void* optval,socklen_t* optlen)  
