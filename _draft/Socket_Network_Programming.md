@@ -173,18 +173,18 @@ Time-wait状态 其相应端口是正在使用的状态 从无法立即重新运
 建立连接时 客户端和服务端都会产生一个随机的seq指 ACK报文如果不携带数据 seq不增加 其他情况增加  
 ### 设置socket
 getsockopt(int sockrt,int level,int optname,void* optval,socklen_t* optlen)  
-sock        查看选项套接字的描述符  
-level       查看可选项的协议层  
-optname     要查看的可选项名  
-optval      保存查看结果的缓冲区地址  
-optlen      缓冲区的大小 调用函数后该参数中保存通过第四个参数返回的可选项信息的字节数  
+- sock        查看选项套接字的描述符  
+- level       查看可选项的协议层  
+- optname     要查看的可选项名  
+- optval      保存查看结果的缓冲区地址  
+- optlen      缓冲区的大小 调用函数后该参数中保存通过第四个参数返回的可选项信息的字节数  
 读取套接字可选项  
 setsockopt(int sockrt,int level,int optname,const void* optval,socklen_t* optlen)  
-sock        更改可选项套接字的描述符  
-level       要更改的协议层  
-optname     保存的可选项名  
-optval      保存要更改的选项信息的缓冲区地址  
-optlen      向第四个参数传递的可选项信息的字节数  
+- sock        更改可选项套接字的描述符  
+- level       要更改的协议层  
+- optname     保存的可选项名  
+- optval      保存要更改的选项信息的缓冲区地址  
+- optlen      向第四个参数传递的可选项信息的字节数  
 ### windows socket 函数
 ```c
 WSADATA wsaData;
