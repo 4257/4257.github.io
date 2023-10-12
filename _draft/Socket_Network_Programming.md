@@ -239,13 +239,14 @@ and the process ID of the new process to the old process.
 ```
 ```mermaid
 graph TB
-    Start(Parent Process) --> F["pid = fork()"]
-    F --pid > 0---> P[Parent Process]
-    F --pid = 0---> C[Child Process]
-
+  Start(Parent Process) --> F["pid = fork()"]
+  F --pid > 0---> P[Parent Process]
+  F --pid = 0---> C[Child Process]
 ```
 - 多进程服务器
-  - 
+  - 父进程需要处理退出的子进程信号 操作系统并不会主动传递子进程退出的信号 需要父进程主动处理-wait()避免产生僵尸进程
+  - 可以多次调用wait处理程序产生的多个子进程
+  - 调用wait时 如果没用已终止的子进程 程序会阻塞 或者使用waitpid()函数 此函数不会阻塞
 - 多路复用服务器
 - 多线程服务器
 
