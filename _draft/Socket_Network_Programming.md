@@ -161,7 +161,12 @@ Time-wait状态 其相应端口是正在使用的状态 从无法立即重新运
 更改SO_REUSEADDR状态为1 可将Time-wait状态下的套接字端口号  
 重新分配给新的套接字
 #### TCP_NODELAY
-
+Nagle算法
+最大程度缓冲数据 只有收到前一数据的ack消息时 才发送下一数据  
+传输大文件数据时 禁用Nagle算法  
+```
+IPPROT_TCP    TCP_NODELAY = 1 则禁用
+```
 
 ### TCP协议
 #### 三次握手
@@ -224,3 +229,23 @@ closesocket(ListenSocket);
 
 WSACleanup();
 ```
+### 多进程服务器端
+#### 并发服务器的实现方法
+```
+int fork(void)
+Clone the calling process, creating an exact copy.
+Return -1 for errors, 0 to the new process,
+and the process ID of the new process to the old process.
+```
+```mermaid
+graph TB
+    Start(Parent Process) --> F["pid = fork()"]
+    F --pid > 0---> P[Parent Process]
+    F --pid = 0---> C[Child Process]
+
+```
+- 多进程服务器
+  - 
+- 多路复用服务器
+- 多线程服务器
+
