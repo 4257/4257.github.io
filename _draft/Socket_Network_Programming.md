@@ -245,14 +245,56 @@ graph TB
 ```
 ##### 多进程服务器
 **创建进程**  
-使用fork创建进程 父进程返回子进程PID 子进程返回0
+使用fork创建进程 父进程返回子进程PID 子进程返回0  
 **僵尸进程**  
-如果子进程比父进程执行的时间更短 父进程没有处理子进程`exit`或者`return`返回的退出信号 就会产生僵尸程序  
+如果子进程比父进程执行的时间更短 且父进程没有处理子进程`exit`或者`return`返回的退出信号 就会产生僵尸程序  
+**销毁僵尸进程**  
+```
+pid_t wait(int *status)
+//阻塞进程 直到有一个终止的子进程出现 并且销毁
+pid_t waitpid(pid_t pid,int *status,int options)
+//pid>0时 只等待进程ID等于pid的子进程 不管其它已经有多少子进程运行结束退出了 只要指定的子进程还没有结束 waitpid就会一直等下去
+//pid=-1时 等待任何一个子进程退出 没有任何限制 此时waitpid和wait的作用一模一样
+//pid=0时 等待同一个进程组中的任何子进程 如果子进程已经加入了别的进程组 waitpid不会对它做任何理睬
+//pid<-1时 等待一个指定进程组中的任何子进程 这个进程组的ID等于pid的绝对值
+//options: options提供了一些额外的选项来控制waitpid 目前在Linux中只支持WNOHANG和WUNTRACED
+//如果使用了WNOHANG参数调用waitpid 即使没有子进程退出 它也会立即返回 不会像wait那样永远等下去
+
+waitpid支持作业控制(以WUNTRACED选项). 用于检查wait和waitpid两个函数返回终止状态的宏: 这两个函数返回的子进程状态都保存在status指针中, 用以下3个宏可以检查该状态: 
+
+WIFEXITED(status): 若为正常终止, 则为真. 此时可执行 WEXITSTATUS(status): 取子进程传送给exit或_exit参数的低8位
+WIFSIGNALED(status): 若为异常终止, 则为真.此时可执行 WTERMSIG(status): 取使子进程终止的信号编号 
+WIFSTOPPED(status): 若为当前暂停子进程, 则为真. 此时可执行 WSTOPSIG(status): 取使子进程暂停的信号编号
+
+```
 因为操作系统并不会主动传递子进程退出的信号 需要父进程主动处理使用`wait`或者`waitpid`函数避免产生僵尸进程  
 可以多次调用wait处理程序产生的多个子进程  
 调用wait时 如果没用已终止的子进程 程序会阻塞  
-调用waitpid()函数 此函数不会阻塞
+调用waitpid()函数 此函数不会阻塞  
 ##### 信号处理
+```
+void (*signal(int signo,void(*func)(int)))(int)
+//signo 信号
+//void函数指针
+
+int sigaction (int sig, const struct sigaction* act,struct sigaction* oact)
+//
+struct sigaction{
+  void (*sa_handler)(int);
+  sigset_t sa_mask;
+  int sa_flags;
+}
+
+SIGALRM  到达alarm函数注册的时间
+SIGINT   键盘键入CTRL+C
+SIGCHLD  子进程终止
+
+unsigned int alarm(unsigned int seconds)
+//对应seconds秒后 产生一个SIGALRM 信号 若对该函数传递0 则之前对SIGALRM信号的预约取消
+//如果预约信号但是未处理 会通过signal终止进程
+```
+signal函数 实际是一个回调函数 回调函数的作用是在某个特定时间产生的时候 执行相应的操作  
+##### 基于多任务的并发服务器
 ##### 多路复用服务器
 ##### 多线程服务器
 
