@@ -296,6 +296,12 @@ unsigned int alarm(unsigned int seconds)
 signal函数 实际是一个回调函数 回调函数的作用是在某个特定时间产生的时候 执行相应的操作  
 如果同时产生多个SIGCHLD信号时 其他信号可能会丢失 导致产生僵尸进程
 ##### 基于多任务的并发服务器
+调用fork函数后 父进程和子进程同时拥有两个socket描述符 服务端listen socket 和accept返回的与客户端连接的socket  
+需要close掉父子进程不需要的描述符  
+父进程保留服务端listen socket  
+子进程保留accept返回的与客户端连接的socket  
+##### 分割TCP的I/O程序
+
 ##### 多路复用服务器
 ##### 多线程服务器
 
