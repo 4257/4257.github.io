@@ -287,13 +287,14 @@ struct sigaction{
 
 SIGALRM  到达alarm函数注册的时间
 SIGINT   键盘键入CTRL+C
-SIGCHLD  子进程终止
+SIGCHLD  子进程终止  
 
 unsigned int alarm(unsigned int seconds)
 //对应seconds秒后 产生一个SIGALRM 信号 若对该函数传递0 则之前对SIGALRM信号的预约取消
 //如果预约信号但是未处理 会通过signal终止进程
 ```
 signal函数 实际是一个回调函数 回调函数的作用是在某个特定时间产生的时候 执行相应的操作  
+如果同时产生多个SIGCHLD信号时 其他信号可能会丢失 导致产生僵尸进程
 ##### 基于多任务的并发服务器
 ##### 多路复用服务器
 ##### 多线程服务器
