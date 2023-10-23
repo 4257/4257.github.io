@@ -314,3 +314,32 @@ int pipe(int filedes[2])
 //filedes[1]    通过管道传输数据时使用的文件描述符 即管道入口
 ```
 **通过管道实现进程间的双向通信**  
+
+### 基于I/O复用的服务器端
+#### 理解select函数并实现服务器端
+- 步骤一:
+  - 设置文件描述符
+  - 指定监视范围
+  - 设置超时
+- 步骤二:
+  - 调用select函数
+- 步骤三:
+  - 查看调用结果
+```
+int select (int  nfds,              //监视对象文件描述符数量
+        fd_set * readfds,           //将所有关注"是否存在待读取数据"的文件描述符注册到fd_set型变量,并传递其地址
+        fd_set *  writefds,         //将所有关注"是否可传输无阻塞数据"的文件描述符注册到fd_set型变量,并传递其地址  
+        fd_set *  exceptfds,        //将所有关注"是否发生异常"的文件描述符注册到fd_set型变量,并传递其地址
+        struct timeval *  timeout   //调用select函数后 为防止陷入无限阻塞的状态 传递超时(time_out)信息
+返回值:发生错误返回-1 超时返回0 因发生关注的事件返回时 返回大于0的值 该值是发生事件的文件描述符数
+
+步骤一:设置文件描述符
+fd_set变量注册或更改值
+FD_ZERO(fd_set* fdset)            将fd_set变量的所有位初始化为0
+FD_SET(int fd,fd_set* fsset)      在参数fdset指向的变量中注册文件描述符fd的信息
+FD_CLR(int fd,fd_set* fsset)      从参数fdset指向的变量中清楚文件描述符fd的信息
+FD_ISSET(int fd,fd_set* fsset)    若参数fdset指向的变量中包含文件描述符fd的信息 则返回真
+步骤一:设置检查范围及超时
+确定文件描述符的监控范围  nfds
+设置超时时间`struct timeval *  timeout`结构体的值
+```
