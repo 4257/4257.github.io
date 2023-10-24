@@ -337,9 +337,11 @@ int select (int  nfds,              //监视对象文件描述符数量
 fd_set变量注册或更改值
 FD_ZERO(fd_set* fdset)            将fd_set变量的所有位初始化为0
 FD_SET(int fd,fd_set* fsset)      在参数fdset指向的变量中注册文件描述符fd的信息
-FD_CLR(int fd,fd_set* fsset)      从参数fdset指向的变量中清楚文件描述符fd的信息
+FD_CLR(int fd,fd_set* fsset)      从参数fdset指向的变量中清除文件描述符fd的信息
 FD_ISSET(int fd,fd_set* fsset)    若参数fdset指向的变量中包含文件描述符fd的信息 则返回真
 步骤一:设置检查范围及超时
 确定文件描述符的监控范围  nfds
 设置超时时间`struct timeval *  timeout`结构体的值
 ```
+### 多种I/O函数
+### 多播与广播
