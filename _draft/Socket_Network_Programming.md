@@ -344,4 +344,19 @@ FD_ISSET(int fd,fd_set* fsset)    若参数fdset指向的变量中包含文件�
 设置超时时间struct timeval *  timeout结构体的值
 ```
 ### 多种I/O函数
+send和recv
+readv和writev
 ### 多播与广播
+多播的数据传输是基于UDP完成的
+多播服务端针对特定多播组 只发送一次数据 但组内所有客户端都会接收数据
+多播组数可在IP地址范围内任意增加
+加入特定多播组即可接收发往该多播组的数据
+### 套接字和标准I/O
+标准I/O函数具有I/O缓冲
+
+```
+//将创建套接字时返回的文件描述符转为便准I/O函数中使用的FILE结构体指针
+FILE* fdopen(int fildes,const char* mode)
+//将FILE指针转为文件描述符
+int fileno(FILE* stream)  
+```
