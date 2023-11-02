@@ -353,10 +353,55 @@ readv和writev
 加入特定多播组即可接收发往该多播组的数据
 ### 套接字和标准I/O
 标准I/O函数具有I/O缓冲
-
 ```
 //将创建套接字时返回的文件描述符转为便准I/O函数中使用的FILE结构体指针
 FILE* fdopen(int fildes,const char* mode)
 //将FILE指针转为文件描述符
 int fileno(FILE* stream)  
 ```
+### I/O流分离
+在I/O中区分二者 都可以说是分离了I/O流  
+但是使用了标准I/O fdopen函数的流则不能直接使用shutdown函数进行半关闭  
+使用fclose函数会完全结束套接字  
+复制文件描述符是为了访问同一文件或者套接字 创建另一个文件描述符 并非是完整的复制文件描述符的整数值  
+而是再让另一个值指向同一文件或者套接字
+```
+//使用dup或者dup2函数复制文件描述符
+int dup(int fildes)
+int dup2(int fildes,int fildes2)
+```
+### epoll
+select无法同时接入上百个客户端  
+如程序需要不同平台的兼容性 且服务端接入着少 可以使用select  
+
+select 每次调用都会向操作系统传递监视对象信息  
+需要监视对象状态变化的针对所有文件描述符的循环  
+epoll类似回调机制 只会返回有变化的文件描述符
+```
+int epoll_create(int size)
+  size  向操作系统建议的大小
+int epoll_ctl(int epfd,int op,int fd,strucr epoll_event* event)
+  epfd  用于注册监视对象的epoll例程的文件描述符
+  op    用于指定监视对象的添加 删除或更改等操作
+  fd    需要注册的监视对象文件描述符
+  event 监视对象的事件类型
+int epoll_wait(int epfd,struct epoll_event* events,int maxevents, int timeout)
+  epfd  表示事件发生监视范围的epoll例程的文件描述符
+  events  保存发生事件的文件描述符集合的结构体地址值
+  maxevents  第二个参数中可以保存的最大事件数
+  timeout  以1/1000秒为单位的等待事件 -1为一直等待
+
+struct epoll_event{
+  __uint32_t  event;
+  epoll_data_t  data;
+}
+typedef union epoll_data{
+  void* ptr;
+  int fd;
+  __uint32_t u32;
+  __uint64_t u64;
+}epoll_data_t
+```
+#### 条件触发和边缘触发
+条件触发方式中 只要输入缓冲有数据就会一直通知该事件
+边缘触发中输入缓冲收到数据只注册一次事件 此时 即使输入缓冲中还留有数据 也不会再进行注册
