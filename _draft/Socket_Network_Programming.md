@@ -403,5 +403,15 @@ typedef union epoll_data{
 }epoll_data_t
 ```
 #### 条件触发和边缘触发
-条件触发方式中 只要输入缓冲有数据就会一直通知该事件
+条件触发方式中 只要输入缓冲有数据就会一直通知该事件  
 边缘触发中输入缓冲收到数据只注册一次事件 此时 即使输入缓冲中还留有数据 也不会再进行注册
+边缘触发中建议要将socket设置成非阻塞模式
+### 多线程服务器端的实现
+```
+int pthread_create (pthread_t *__restrict __newthread,
+			   const pthread_attr_t *__restrict __attr,
+			   void *(*__start_routine) (void *),
+			   void *__restrict __arg) __THROWNL __nonnull ((1, 3));
+
+int pthread_join (pthread_t __th, void **__thread_return);
+```
