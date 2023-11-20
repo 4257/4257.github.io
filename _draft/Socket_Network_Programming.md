@@ -407,11 +407,25 @@ typedef union epoll_data{
 边缘触发中输入缓冲收到数据只注册一次事件 此时 即使输入缓冲中还留有数据 也不会再进行注册
 边缘触发中建议要将socket设置成非阻塞模式
 ### 多线程服务器端的实现
+进程:在此操作系统构成单独的执行流的单位  
+创建进程的过程会给操作系统带来相当程度的负担 而且 每个进程都具有独立的内存空间 进程间的通信  
+实现难度也会提高 多进程为了完成数据交换 需要特殊的IPC技术  
+线程:在进程构成单独执行流的单位  
+但如果是为了获得多个代码执行流为主要目的 则不用完全分离内存结构 而只需要分割栈区域 使得数据  
+之间的交换更方便 也不用像进程一样需要切换数据区和堆
 ```
 int pthread_create (pthread_t *__restrict __newthread,
 			   const pthread_attr_t *__restrict __attr,
 			   void *(*__start_routine) (void *),
 			   void *__restrict __arg) __THROWNL __nonnull ((1, 3));
+__newthread		保存新创建的进程ID的变量地址值
+__attr			用于传递线程属性的参数 默认属性的线程为NULL
+__start_routine		相当于线程的main函数 在单独执行流中执行的函数地址值
+__arg			通过第三个参数传递调用函数时包含传递参数信息的变量地址值
 
 int pthread_join (pthread_t __th, void **__thread_return);
+
+线程相关代码编译时需要加上 -lpthread 选项声明需要连接线程库 这样才能调用pthread.h中声明的函数
 ```
+使用pthread_join函数将进程或线程置入等待状态 直到第一个参数为ID的线程终止为止  
+#### 可在临界区调用的函数
