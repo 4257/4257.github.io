@@ -428,4 +428,40 @@ int pthread_join (pthread_t __th, void **__thread_return);
 线程相关代码编译时需要加上 -lpthread 选项声明需要连接线程库 这样才能调用pthread.h中声明的函数
 ```
 使用pthread_join函数将进程或线程置入等待状态 直到第一个参数为ID的线程终止为止  
+编译时加上`-D_REENTRANT`将线程不安全的变成线程安全的函数
 #### 可在临界区调用的函数
+##### 互斥量-互斥锁  
+由于同一个全局变量可能存在同时访问的问题 多线程程序中的线程可能随时切换到另一个线程 可以采用线程同步来解决  
+```
+//互斥量的创建和销毁
+int pthread_mutex_init(pthread_mutex_t* __mutex,const pthread_mutexattr_t *__mutexattr);
+int pthread_mutex_destroy (pthread_mutex_t *__mutex)
+//临界区的加锁和解锁
+int pthread_mutex_lock (pthread_mutex_t *__mutex)
+int pthread_mutex_unlock (pthread_mutex_t *__mutex)
+```
+##### 信号量
+二值信号量：
+顾名思义 其值只有两种0或1 相当于互斥量 当值为1时资源可用 而当值为0时 资源被锁住 进程阻塞无法继续执行  
+调用sem_post函数时 信号量值 +1  
+调用sem_wait函数时 信号量值 -1  
+信号量的值不能小于0
+在信号量为0的情况下调用sem_wait 调用函数的线程将进入阻塞状态
+```
+#include <semaphore.h>
+//信号量的创建和销毁
+int sem_init (sem_t *__sem, int __pshared, unsigned int __value)
+int sem_destroy (sem_t *__sem)
+//信号量的阻塞和释放
+int sem_wait (sem_t *__sem)
+int sem_post (sem_t *__sem)
+```
+### 线程的销毁和多线程并发服务器的实现
+```
+//适用于需要等待线程执行完毕并获取结果的情况
+//等待执行 引导销毁 主线程阻塞
+pthread_join
+//适用于不关心结果 只需要执行并自动销毁的情况
+//分离线程 结束释放 后台运行
+pthread_detach
+```
