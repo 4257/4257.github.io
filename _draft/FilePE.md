@@ -150,6 +150,9 @@ INT表和IAT表存的值完全一样 都以0作为结束符 存的都是RVA 指�
 使用目录结构修复exe的导入表  
 IMAGE_IMPORT_DESCRIPTOR -> OriginalFirstTunk ->IMAGE_THUNK_DATA32
 判断值是不是1 是1则根据后31为编号去导出表查找函数名得到地址 添加到IAT表的相同位置
+
+有可能会出现IAT表已经绑定了的情况 这种需要看时间戳 时间戳存在另一张表里
+TimeDateStamp = -1 表示以绑定 真正的绑定时间在PIMAGE_BOUND_IMPORT_DESCRIPTOR的TimaDateStamp中
 ### 绑定导入表
 
 ### ??!!
